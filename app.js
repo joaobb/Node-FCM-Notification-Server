@@ -1,4 +1,3 @@
-const { initializeApp } = require("firebase-admin/app");
 const { FirebaseService } = require("./services/firebase");
 const cors = require("cors");
 
@@ -21,7 +20,7 @@ app.listen(port, () => {
 app.post("/token", (req, res) => {
   console.log("REGISTER TOKEN:", req.body);
 
-  res.status(201).send('Ok');
+  res.status(201).send("Ok");
 });
 
 app.get("/ping", (req, res) => {
@@ -34,12 +33,11 @@ app.get("/", (req, res) => {
 });
 
 app.post("/message", async (req, res) => {
-  const { target, title, body } = req.body;
-
-  console.log(target, title, body);
+  const { targetToken, targetTopic, title, body } = req.body;
 
   const messageReponse = await FirebaseService.sendNotification({
-    target,
+    targetToken,
+    targetTopic,
     title,
     message: body,
   });

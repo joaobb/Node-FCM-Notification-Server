@@ -1,5 +1,6 @@
 const admin = require("firebase-admin");
-const serviceAccount = require("../ionic-push-poc-5cb14-firebase-adminsdk-ibwjm-e41e1ff207.json");
+const serviceAccount = require("../ionic-push-poc-5cb14-firebase-adminsdk-ibwjm-b7b5dd9735.json");
+const path = require("path");
 
 class FirebaseService {
   app = null;
@@ -10,8 +11,8 @@ class FirebaseService {
     });
   }
 
-  static async sendNotification({ target, title, message }) {
-    console.log("SENDING TO", target, title, message);
+  static async sendNotification({ targetToken, targetTopic, title, message }) {
+    console.log("SENDING TO", targetTopic || targetToken, title, message);
 
     const messagePayload = {
       notification: {
@@ -20,14 +21,23 @@ class FirebaseService {
       },
       android: {
         notification: {
-          icon: "stock_ticker_update",
-          color: "#7e55c3",
+          notificationCount: 999,
+          sound: "notification.mp3",
         },
       },
-      token: target,
+      topic: undefined,
+      token: undefined,
     };
 
-    return admin.messaging().send(messagePayload);
+    if (targetToken) messagePayload.token = targetToken;
+    else if (targetTopic) messagePayload.topic = targetTopic;
+
+    try {
+      return await admin.messaging().send(messagePayload);
+    } catch (err) {
+      console.error(err);
+      return err.message;
+    }
   }
 }
 

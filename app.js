@@ -11,7 +11,6 @@ app.use(cors());
 
 const port = 3000;
 let firebaseService = null;
-
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
   FirebaseService.init();
@@ -24,7 +23,7 @@ app.post("/token", (req, res) => {
 });
 
 app.get("/ping", (req, res) => {
-  console.log("PONG!");
+  console.log("pong!");
   res.send("pong");
 });
 
@@ -40,6 +39,23 @@ app.post("/message", async (req, res) => {
     targetTopic,
     title,
     message: body,
+  });
+
+  res.send(`Message sent! ID: ${messageReponse}`);
+});
+
+app.post("/bulk-message", async (req, res) => {
+  const { number, delay, targetToken, targetTopic, title, body } = req.body;
+
+  const messageReponse = await FirebaseService.bulkSendNotifications({
+    number,
+    delay,
+    payload: {
+      targetToken,
+      targetTopic,
+      title,
+      message: body,
+    },
   });
 
   res.send(`Message sent! ID: ${messageReponse}`);

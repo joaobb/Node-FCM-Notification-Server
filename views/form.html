@@ -11,7 +11,7 @@
   </head>
   <body>
     <h1>Zap 2</h1>
-    <form action="/message" method="post" id="message-form">
+    <form action="/bulk-message" method="post" id="message-form">
       <label for="token">Target Token: </label>
       <input id="token" name="targetToken" value="" />
 
@@ -25,6 +25,18 @@
       <textarea id="body" name="body">
 Congrats, you just sold {course name}!
       </textarea>
+
+      <div style="margin: 1rem 0;">
+        <div>
+          <label for="number">Number: </label>
+          <input id="number" type="number" name="number" value="1" />
+        </div>
+
+        <div>
+          <label for="delay">Delay (s): </label>
+          <input id="delay" name="delay" type="number" value="1" />
+        </div>
+      </div>
 
       <button>Send</button>
     </form>

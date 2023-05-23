@@ -9,6 +9,8 @@ app.use(express.json()); // Used to parse JSON bodies
 app.use(express.urlencoded({ extended: true })); //Parse URL-encoded bodies
 app.use(cors());
 
+const tokens = {};
+
 const port = 3000;
 let firebaseService = null;
 app.listen(port, () => {
@@ -17,9 +19,20 @@ app.listen(port, () => {
 });
 
 app.post("/token", (req, res) => {
+  if (!req.body) res.status(400).send();
+
+  const { accountId, token } = req.body;
+
   console.log("REGISTER TOKEN:", req.body);
 
+  if (!tokens[accountId]) tokens[accountId] = [];
+  tokens[accountId].push(token);
+
   res.status(201).send("Ok");
+});
+
+app.get("/tokens", (req, res) => {
+  res.json(tokens);
 });
 
 app.get("/ping", (req, res) => {

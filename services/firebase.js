@@ -30,7 +30,6 @@ class FirebaseService {
         },
         android: {
           notification: {
-            notificationCount: 999,
             sound: "coin.wav",
             channelId: "fcm_default_channel",
             defaultSound: false,

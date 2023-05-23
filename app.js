@@ -8,6 +8,7 @@ const app = express();
 app.use(express.json()); // Used to parse JSON bodies
 app.use(express.urlencoded({ extended: true })); //Parse URL-encoded bodies
 app.use(cors());
+app.set("view engine", "ejs");
 
 const tokens = {};
 
@@ -41,7 +42,9 @@ app.get("/ping", (req, res) => {
 });
 
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "/views/form.html"));
+  res.render("form", {
+    tokens: Object.entries(tokens),
+  });
 });
 
 app.post("/message", async (req, res) => {

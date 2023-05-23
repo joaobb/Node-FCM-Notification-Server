@@ -11,6 +11,28 @@
   </head>
   <body>
     <h1>Zap 2</h1>
+
+    <details>
+      <summary>
+        <h2 style="display: inline">Tokens</h2>
+      </summary>
+      <ul>
+        <% tokens.forEach(([accountId, token]) => { %>
+          <li>
+            <%= accountId %>
+
+            <ul>
+              <% token.forEach((tok) => { %>
+                <li>
+                    <pre style="user-select: all"><%= tok %> </pre>
+                </li>
+              <% }) %>
+            </ul>
+          </li>
+        <% }) %>
+      </ul>
+    </details>
+
     <form action="/bulk-message" method="post" id="message-form">
       <label for="token">Target Token: </label>
       <input id="token" name="targetToken" value="" />
@@ -26,7 +48,7 @@
 Congrats, you just sold {course name}!
       </textarea>
 
-      <div style="margin: 1rem 0;">
+      <div style="margin: 1rem 0">
         <div>
           <label for="number">Number: </label>
           <input id="number" type="number" name="number" value="1" />
